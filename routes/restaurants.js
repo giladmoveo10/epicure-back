@@ -19,6 +19,7 @@ router.get("/:id", getRestaurant, (req, res) => {
 
 // Create one restaurant
 router.post("/", async (req, res) => {
+    // console.log(`req.body: ${JSON.stringify(req.body)}`);
     const restaurant = new Restaurant({
         name: req.body.name,
         image: req.body.image,
@@ -28,6 +29,7 @@ router.post("/", async (req, res) => {
 
     try {
         const newRestaurant = await restaurant.save();
+        console.log(`new restaurant: ${newRestaurant} saved`);
         res.status(201).json(newRestaurant);
     } catch (err) {
         res.status(400).json({ message: err.message });

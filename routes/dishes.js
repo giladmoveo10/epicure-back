@@ -4,6 +4,7 @@ const router = express.Router();
 
 // CREATE a dish
 router.post("/", async (req, res) => {
+    console.log(`req.body: ${JSON.stringify(req.body)}`);
     const dish = new Dish({
         name: req.body.name,
         price: req.body.price,
@@ -13,7 +14,6 @@ router.post("/", async (req, res) => {
     });
 
     try {
-        // const dish = new Dish(req.body);
         const newDish = await dish.save();
         res.status(201).json(newDish);
     } catch (error) {
@@ -47,13 +47,10 @@ router.patch("/:id", getDish, async (req, res) => {
     if (req.body.ingredients != null) {
         res.dish.ingredients = req.body.ingredients;
     }
-    if (req.body.tags != null) {
-        res.dish.tags = req.body.tags;
-    }
-    // ? how to update restaurants?
-    // if (req.body.restaurant != null) {
-    //     res.dish.restaurant = req.body.restaurant;
+    // if (req.body.tags != null) {
+    //     res.dish.tags = req.body.tags;
     // }
+    // ? how to update restaurants?
 
     try {
         const updatedDish = await res.dish.save();
