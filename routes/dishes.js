@@ -3,6 +3,21 @@ const Dish = require("../models/Dish");
 const util = require("util");
 const router = express.Router();
 
+// READ all dishes
+router.get("/", async (req, res) => {
+    try {
+        const dishes = await Dish.find();
+        res.json(dishes);
+    } catch (err) {
+        res.status(500).json({ message: err.message });
+    }
+});
+
+// READ a single dish by ID
+router.get("/:id", getDish, (req, res) => {
+    res.json(res.dish);
+});
+
 // CREATE a dish
 router.post("/", async (req, res) => {
     // console.log(`req.body: ${JSON.stringify(req.body)}`);
@@ -22,21 +37,6 @@ router.post("/", async (req, res) => {
     } catch (error) {
         res.status(400).json({ message: error.message });
     }
-});
-
-// READ all dishes
-router.get("/", async (req, res) => {
-    try {
-        const dishes = await Dish.find();
-        res.json(dishes);
-    } catch (err) {
-        res.status(500).json({ message: err.message });
-    }
-});
-
-// READ a single dish by ID
-router.get("/:id", getDish, (req, res) => {
-    res.json(res.dish);
 });
 
 // UPDATE a chef by ID
