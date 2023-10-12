@@ -19,9 +19,9 @@ const DishSchema = new Schema({
         type: String,
         required: true,
     },
-    // tags: {
-    //     type: [String],
-    // },
+    tags: {
+        type: [String],
+    },
     restaurant: {
         type: Schema.Types.ObjectId,
         ref: "restaurant",

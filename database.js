@@ -1,10 +1,6 @@
 const { MongoClient } = require("mongodb");
 const mongoose = require("mongoose");
 
-
-// const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
-// let _db;
-
 async function connect() {
     try {
         await mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true });
@@ -13,15 +9,8 @@ async function connect() {
     } catch (err) {
         console.error("DB connection error:", err);
     } finally {
-        // ? close the client?
-        // await client.close();
+        // ? should i disconnect somehow ?
     }
 }
-
-// const getDb = () => {
-//     if (_db) return _db;
-//     throw "no DB Found!";
-// };
-// create a connection using mongoose
 
 module.exports = { connect };
