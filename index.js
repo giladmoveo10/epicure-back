@@ -3,6 +3,7 @@ const { connect } = require("./database");
 const chefsRouter = require("./routes/chefs");
 const dishesRouter = require("./routes/dishes");
 const restaurantsRouter = require("./routes/restaurants");
+const cors = require("cors");
 
 const app = express();
 const PORT = process.env.PORT || 3001;
@@ -11,6 +12,7 @@ connect();
 
 app.use(express.json()); // same as bodyParser.json()
 app.use(express.urlencoded({ extended: true }));
+app.use(cors());
 
 app.use("/api/chefs", chefsRouter);
 app.use("/api/dishes", dishesRouter);
