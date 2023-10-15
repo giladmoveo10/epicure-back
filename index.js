@@ -3,6 +3,7 @@ const { connect } = require("./database");
 const chefsRouter = require("./routes/chefs");
 const dishesRouter = require("./routes/dishes");
 const restaurantsRouter = require("./routes/restaurants");
+const featuredChefRouter = require("./routes/featuredChefRoute");
 const cors = require("cors");
 
 const app = express();
@@ -17,6 +18,7 @@ app.use(cors());
 app.use("/api/chefs", chefsRouter);
 app.use("/api/dishes", dishesRouter);
 app.use("/api/restaurants", restaurantsRouter);
+app.use("/api/featuredChef", featuredChefRouter);
 
 app.get("/", (req, res) => {
     res.send("Hello World!");

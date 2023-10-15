@@ -2,6 +2,21 @@ const express = require("express");
 const Chef = require("../models/Chef");
 const router = express.Router();
 
+// READ all chefs
+router.get("/", async (req, res) => {
+    try {
+        const chefs = await Chef.find().populate("restaurants");
+        res.json(chefs);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+});
+
+// READ a single chef by ID
+router.get("/:id", getChef, (req, res) => {
+    res.json(res.chef);
+});
+
 // CREATE a chef
 router.post("/", async (req, res) => {
     try {
@@ -16,21 +31,6 @@ router.post("/", async (req, res) => {
     } catch (error) {
         res.status(400).json({ message: error.message });
     }
-});
-
-// READ all chefs
-router.get("/", async (req, res) => {
-    try {
-        const chefs = await Chef.find();
-        res.json(chefs);
-    } catch (error) {
-        res.status(500).json({ message: error.message });
-    }
-});
-
-// READ a single chef by ID
-router.get("/:id", getChef, (req, res) => {
-    res.json(res.chef);
 });
 
 // UPDATE a chef by ID
@@ -69,7 +69,7 @@ router.delete("/:id", getChef, async (req, res) => {
 async function getChef(req, res, next) {
     let chef;
     try {
-        chef = await Chef.findById(req.params.id);
+        chef = await Chef.findById(req.params.id).populate("restaurants");
         if (chef == null) {
             return res.status(404).json({ message: "Cannot find chef" });
         }
