@@ -22,4 +22,12 @@ const RestaurantSchema = new Schema({
     ],
 });
 
+RestaurantSchema.virtual("id").get(function () {
+    return this._id.toHexString();
+});
+
+RestaurantSchema.set("toJSON", {
+    virtuals: true,
+});
+
 module.exports = Restaurant = mongoose.model("restaurant", RestaurantSchema);

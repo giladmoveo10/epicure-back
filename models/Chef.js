@@ -23,4 +23,12 @@ const ChefSchema = new Schema({
     ],
 });
 
+ChefSchema.virtual("id").get(function () {
+    return this._id.toHexString();
+});
+
+ChefSchema.set("toJSON", {
+    virtuals: true,
+});
+
 module.exports = Chef = mongoose.model("chef", ChefSchema);

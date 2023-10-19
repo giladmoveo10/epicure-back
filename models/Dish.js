@@ -28,4 +28,12 @@ const DishSchema = new Schema({
     },
 });
 
+DishSchema.virtual("id").get(function () {
+    return this._id.toHexString();
+});
+
+DishSchema.set("toJSON", {
+    virtuals: true,
+});
+
 module.exports = Dish = mongoose.model("dish", DishSchema);

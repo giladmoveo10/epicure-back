@@ -5,6 +5,7 @@ const dishesRouter = require("./routes/dishes");
 const restaurantsRouter = require("./routes/restaurants");
 const featuredChefRouter = require("./routes/featuredChefRoute");
 const cors = require("cors");
+const jwt = require("jsonwebtoken");
 
 const app = express();
 const PORT = process.env.PORT || 3001;
