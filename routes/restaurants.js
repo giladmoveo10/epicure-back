@@ -23,8 +23,8 @@ router.post("/", async (req, res) => {
     const restaurant = new Restaurant({
         name: req.body.name,
         image: req.body.image,
-        chef: req.body.chef,
-        dishes: req.body.dishes,
+        chef: req.body.chefId,
+        dishes: req.body.dishIds,
     });
 
     try {
@@ -44,8 +44,12 @@ router.patch("/:id", getRestaurant, async (req, res) => {
     if (req.body.image != null) {
         res.restaurant.image = req.body.image;
     }
-
-    // ? how to update chef? and dishes?
+    if (req.body.chefId) {
+        res.restaurant.chef = req.body.chefId;
+    }
+    if (req.body.dishIds) {
+        res.restaurant.dishes = req.body.dishIds;
+    }
 
     try {
         const updatedRestaurant = await res.restaurant.save();
@@ -58,7 +62,7 @@ router.patch("/:id", getRestaurant, async (req, res) => {
 // Delete one restaurant
 router.delete("/:id", getRestaurant, async (req, res) => {
     try {
-        await res.restaurant.remove();
+        await Restaurant.deleteOne({ _id: req.params.id });
         res.json({ message: "Deleted Restaurant" });
     } catch (err) {
         res.status(500).json({ message: err.message });

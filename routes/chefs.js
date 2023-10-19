@@ -24,7 +24,7 @@ router.post("/", async (req, res) => {
             name: req.body.name,
             image: req.body.image,
             description: req.body.description,
-            restaurants: req.body.restaurants,
+            restaurants: req.body.restaurantIds,
         });
         const savedChef = await chef.save();
         res.status(201).json(savedChef);
@@ -35,20 +35,22 @@ router.post("/", async (req, res) => {
 
 // UPDATE a chef by ID
 router.patch("/:id", getChef, async (req, res) => {
-    if (req.body.name !== undefined) {
+    if (req.body.name) {
         res.chef.name = req.body.name;
     }
-    if (req.body.image !== undefined) {
+    if (req.body.image) {
         res.chef.image = req.body.image;
     }
-    if (req.body.description !== undefined) {
+    if (req.body.description) {
         res.chef.description = req.body.description;
     }
-
-    // ? how to update restaurants? by id or as an object?
+    if (req.body.restaurantIds) {
+        res.chef.restaurants = req.body.restaurantIds;
+    }
 
     try {
         const updatedChef = await res.chef.save();
+        console.log("updatedChef", updatedChef);
         res.json(updatedChef);
     } catch (error) {
         res.status(400).json({ message: error.message });
@@ -58,10 +60,11 @@ router.patch("/:id", getChef, async (req, res) => {
 // DELETE a chef by ID
 router.delete("/:id", getChef, async (req, res) => {
     try {
-        await res.chef.remove();
+        await Chef.deleteOne({ _id: req.params.id });
         res.json({ message: "Chef Deleted" });
     } catch (error) {
         res.status(500).json({ message: error.message });
+        console.log("error delete", error);
     }
 });
 
