@@ -4,8 +4,8 @@ const chefsRouter = require("./routes/chefs");
 const dishesRouter = require("./routes/dishes");
 const restaurantsRouter = require("./routes/restaurants");
 const featuredChefRouter = require("./routes/featuredChefRoute");
+const usersRouter = require("./routes/users");
 const cors = require("cors");
-const jwt = require("jsonwebtoken");
 
 const app = express();
 const PORT = process.env.PORT || 3001;
@@ -20,6 +20,7 @@ app.use("/api/chefs", chefsRouter);
 app.use("/api/dishes", dishesRouter);
 app.use("/api/restaurants", restaurantsRouter);
 app.use("/api/featuredChef", featuredChefRouter);
+app.use("/api/users", usersRouter);
 
 app.get("/", (req, res) => {
     res.send("Hello World!");

@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const Restaurant = require("../models/Restaurant");
+const authenticateToken = require("../middlewares/authToken");
 
 // Get all restaurants
 router.get("/", async (req, res) => {
@@ -18,7 +19,7 @@ router.get("/:id", getRestaurant, (req, res) => {
 });
 
 // Create one restaurant
-router.post("/", async (req, res) => {
+router.post("/", authenticateToken, async (req, res) => {
     // console.log(`req.body: ${JSON.stringify(req.body)}`);
     const restaurant = new Restaurant({
         name: req.body.name,
@@ -37,7 +38,7 @@ router.post("/", async (req, res) => {
 });
 
 // Update one restaurant
-router.patch("/:id", getRestaurant, async (req, res) => {
+router.patch("/:id", getRestaurant, authenticateToken, async (req, res) => {
     if (req.body.name != null) {
         res.restaurant.name = req.body.name;
     }
@@ -60,7 +61,7 @@ router.patch("/:id", getRestaurant, async (req, res) => {
 });
 
 // Delete one restaurant
-router.delete("/:id", getRestaurant, async (req, res) => {
+router.delete("/:id", getRestaurant, authenticateToken, async (req, res) => {
     try {
         await Restaurant.deleteOne({ _id: req.params.id });
         res.json({ message: "Deleted Restaurant" });
