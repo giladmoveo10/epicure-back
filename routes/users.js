@@ -2,8 +2,6 @@ const express = require("express");
 const router = express.Router();
 const jwt = require("jsonwebtoken");
 const User = require("../models/User");
-const authenticateToken = require("../middlewares/authToken");
-// const bcrypt = require("bcryptjs");
 const bcrypt = require("bcrypt");
 const saltRounds = 10;
 
@@ -56,7 +54,7 @@ router.post("/login", async (req, res) => {
         const payload = {
             id: user.id,
             username: user.username,
-            password: user.password, // ? do i need to send this?
+            password: user.password,
             role: user.role,
         };
 
