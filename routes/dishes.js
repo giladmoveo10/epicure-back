@@ -2,6 +2,7 @@ const express = require("express");
 const Dish = require("../models/Dish");
 const util = require("util");
 const router = express.Router();
+const authenticateToken = require("../middlewares/authToken");
 
 // READ all dishes
 router.get("/", async (req, res) => {
@@ -19,7 +20,7 @@ router.get("/:id", getDish, (req, res) => {
 });
 
 // CREATE a dish
-router.post("/", async (req, res) => {
+router.post("/", authenticateToken, async (req, res) => {
     // console.log(`req.body: ${JSON.stringify(req.body)}`);
     const dish = new Dish({
         name: req.body.name,
@@ -39,8 +40,8 @@ router.post("/", async (req, res) => {
     }
 });
 
-// UPDATE a chef by ID
-router.patch("/:id", validateRestaurantId, getDish, async (req, res) => {
+// UPDATE a dish by ID
+router.patch("/:id", validateRestaurantId, getDish, authenticateToken, async (req, res) => {
     if (req.body.name) {
         res.dish.name = req.body.name;
     }
@@ -65,8 +66,8 @@ router.patch("/:id", validateRestaurantId, getDish, async (req, res) => {
     }
 });
 
-// DELETE a chef by ID
-router.delete("/:id", getDish, async (req, res) => {
+// DELETE a dish by ID
+router.delete("/:id", getDish, authenticateToken, async (req, res) => {
     try {
         await res.dish.remove();
         res.json({ message: "Deleted Dish" });

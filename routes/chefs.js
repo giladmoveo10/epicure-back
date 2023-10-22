@@ -1,6 +1,7 @@
 const express = require("express");
 const Chef = require("../models/Chef");
 const router = express.Router();
+const authenticateToken = require("../middlewares/authToken");
 
 // READ all chefs
 router.get("/", async (req, res) => {
@@ -18,7 +19,7 @@ router.get("/:id", getChef, (req, res) => {
 });
 
 // CREATE a chef
-router.post("/", async (req, res) => {
+router.post("/", authenticateToken, async (req, res) => {
     try {
         const chef = new Chef({
             name: req.body.name,
@@ -34,7 +35,7 @@ router.post("/", async (req, res) => {
 });
 
 // UPDATE a chef by ID
-router.patch("/:id", getChef, async (req, res) => {
+router.patch("/:id", getChef, authenticateToken, async (req, res) => {
     if (req.body.name) {
         res.chef.name = req.body.name;
     }
@@ -58,7 +59,7 @@ router.patch("/:id", getChef, async (req, res) => {
 });
 
 // DELETE a chef by ID
-router.delete("/:id", getChef, async (req, res) => {
+router.delete("/:id", getChef, authenticateToken, async (req, res) => {
     try {
         await Chef.deleteOne({ _id: req.params.id });
         res.json({ message: "Chef Deleted" });
