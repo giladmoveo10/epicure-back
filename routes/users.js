@@ -20,7 +20,7 @@ router.post("/register", async (req, res) => {
     }
 
     hash = bcrypt.hash(password, saltRounds, async function (err, hash) {
-        if (err) return res.status(500).json({ message: "Error hashing password" });
+        if (err) return res.status(500).json({ message: "Internal server Error" });
 
         const newUser = new User({
             username: username,
@@ -41,7 +41,6 @@ router.post("/login", async (req, res) => {
     const { username, password } = req.body;
 
     if (!username || !password) {
-        // ! wont get here since we have a frontend validation
         return res.status(400).json({ message: "Missing username or password" });
     }
 
@@ -51,8 +50,8 @@ router.post("/login", async (req, res) => {
     }
 
     bcrypt.compare(password, user.password, (err, isMatch) => {
-        if (err) return res.status(500).json({ message: "Error during password comparison" });
-        if (!isMatch) return res.status(400).json({ message: "Invalid credentials / Incorrect password" });
+        if (err) return res.status(500).json({ message: "Internal Server Error - can not complete login" });
+        if (!isMatch) return res.status(400).json({ message: "User or password incorrect. Try again" });
 
         const payload = {
             id: user.id,
