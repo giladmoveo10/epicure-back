@@ -58,7 +58,7 @@ router.post("/login", async (req, res) => {
             role: user.role,
         };
 
-        jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET, (err, token) => {
+        jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET, { expiresIn: "1h" }, (err, token) => {
             if (err) {
                 console.log("err", err);
                 throw err;
