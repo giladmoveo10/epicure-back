@@ -20,7 +20,6 @@ router.get("/:id", getRestaurant, (req, res) => {
 
 // Create one restaurant
 router.post("/", authenticateToken, async (req, res) => {
-    // console.log(`req.body: ${JSON.stringify(req.body)}`);
     const restaurant = new Restaurant({
         name: req.body.name,
         image: req.body.image,
