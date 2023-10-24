@@ -24,6 +24,7 @@ router.post("/", async (req, res) => {
             chef: req.body.chefId,
         });
         const savedChef = await newFeaturedChef.save();
+        console.log(`new featured chef: ${savedChef} saved`);
         res.status(201).json(savedChef);
     } catch (error) {
         res.status(400).json({ message: error.message });

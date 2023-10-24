@@ -22,6 +22,10 @@ const DishSchema = new Schema({
     tags: {
         type: [String],
     },
+    signatureDish: {
+        type: Boolean,
+        default: false,
+    },
     restaurant: {
         type: Schema.Types.ObjectId,
         ref: "restaurant",

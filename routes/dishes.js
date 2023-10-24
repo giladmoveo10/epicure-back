@@ -1,6 +1,5 @@
 const express = require("express");
 const Dish = require("../models/Dish");
-const util = require("util");
 const router = express.Router();
 const authenticateToken = require("../middlewares/authToken");
 
@@ -21,13 +20,13 @@ router.get("/:id", getDish, (req, res) => {
 
 // CREATE a dish
 router.post("/", authenticateToken, async (req, res) => {
-    // console.log(`req.body: ${JSON.stringify(req.body)}`);
     const dish = new Dish({
         name: req.body.name,
         price: req.body.price,
         ingredients: req.body.ingredients,
         image: req.body.image,
         tags: req.body.tags,
+        signatureDish: req.body.signatureDish,
         restaurant: req.body.restaurant,
     });
 
@@ -41,18 +40,24 @@ router.post("/", authenticateToken, async (req, res) => {
 });
 
 // UPDATE a dish by ID
-router.patch("/:id", validateRestaurantId, getDish, authenticateToken, async (req, res) => {
+router.patch("/:id", validateRestaurantId, getDish, authenticateToken, async (req, res) => {fe
     if (req.body.name) {
         res.dish.name = req.body.name;
     }
     if (req.body.price) {
         res.dish.price = req.body.price;
     }
+    if (req.body.image) {
+        res.dish.image = req.body.image;
+    }
     if (req.body.ingredients) {
         res.dish.ingredients = req.body.ingredients;
     }
     if (req.body.tags) {
         res.dish.tags = req.body.tags;
+    }
+    if (req.body.signatureDish != null) {
+        res.dish.signatureDish = req.body.signatureDish;
     }
     if (req.body.restaurant) {
         res.dish.restaurant = req.body.restaurant;
@@ -69,7 +74,7 @@ router.patch("/:id", validateRestaurantId, getDish, authenticateToken, async (re
 // DELETE a dish by ID
 router.delete("/:id", getDish, authenticateToken, async (req, res) => {
     try {
-        await res.dish.remove();
+        await Dish.deleteOne({ _id: req.params.id });
         res.json({ message: "Deleted Dish" });
     } catch (err) {
         res.status(500).json({ message: err.message });
