@@ -40,7 +40,7 @@ router.post("/", authenticateToken, async (req, res) => {
 });
 
 // UPDATE a dish by ID
-router.patch("/:id", validateRestaurantId, getDish, authenticateToken, async (req, res) => {fe
+router.patch("/:id", validateRestaurantId, getDish, authenticateToken, async (req, res) => {
     if (req.body.name) {
         res.dish.name = req.body.name;
     }
