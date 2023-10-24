@@ -13,6 +13,15 @@ router.get("/", async (req, res) => {
     }
 });
 
+router.get("/signature", async (req, res) => {
+    try {
+        const signatureDishes = await Dish.find({ signatureDish: true });
+        res.json(signatureDishes);
+    } catch (err) {
+        res.status(500).json({ message: err.message });
+    }
+});
+
 // READ a single dish by ID
 router.get("/:id", getDish, (req, res) => {
     res.json(res.dish);
