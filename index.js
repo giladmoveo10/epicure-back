@@ -5,6 +5,7 @@ const dishesRouter = require("./routes/dishes");
 const restaurantsRouter = require("./routes/restaurants");
 const featuredChefRouter = require("./routes/featuredChefRoute");
 const usersRouter = require("./routes/users");
+const tagsRouter = require("./routes/tags");
 const cors = require("cors");
 
 const app = express();
@@ -21,6 +22,7 @@ app.use("/api/dishes", dishesRouter);
 app.use("/api/restaurants", restaurantsRouter);
 app.use("/api/featuredChef", featuredChefRouter);
 app.use("/api/users", usersRouter);
+app.use("/api/tags", tagsRouter);
 
 app.get("/", (req, res) => {
     res.send("Hello World!");
