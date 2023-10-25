@@ -39,6 +39,10 @@ router.post("/", authenticateToken, async (req, res) => {
         dishes: req.body.dishIds,
     });
 
+    if (req.body.stars < 0 || req.body.stars > 5) {
+        return res.status(400).json({ message: "Rating must be between 0 and 5." });
+    }
+
     try {
         const newRestaurant = await restaurant.save();
         console.log(`new restaurant: ${newRestaurant} saved`);
@@ -60,6 +64,10 @@ router.patch("/:id", getRestaurant, authenticateToken, async (req, res) => {
         res.restaurant.popular = req.body.popular;
     }
     if (req.body.stars != null) {
+        if (req.body.stars < 0 || req.body.stars > 5) {
+            return res.status(400).json({ message: "Rating must be between 0 and 5" });
+        }
+
         res.restaurant.stars = req.body.stars;
     }
     if (req.body.chefId) {

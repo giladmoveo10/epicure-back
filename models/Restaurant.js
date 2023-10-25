@@ -16,6 +16,8 @@ const RestaurantSchema = new Schema({
     },
     stars: {
         type: Number,
+        min: 0,
+        max: 5,
         default: 0,
     },
     chef: {
