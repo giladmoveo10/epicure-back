@@ -34,6 +34,7 @@ router.post("/", authenticateToken, async (req, res) => {
         name: req.body.name,
         image: req.body.image,
         popular: req.body.popular || false,
+        stars: req.body.stars || 0,
         chef: req.body.chefId,
         dishes: req.body.dishIds,
     });
@@ -57,6 +58,9 @@ router.patch("/:id", getRestaurant, authenticateToken, async (req, res) => {
     }
     if (req.body.popular != null) {
         res.restaurant.popular = req.body.popular;
+    }
+    if (req.body.stars != null) {
+        res.restaurant.stars = req.body.stars;
     }
     if (req.body.chefId) {
         res.restaurant.chef = req.body.chefId;

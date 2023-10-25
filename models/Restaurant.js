@@ -14,6 +14,10 @@ const RestaurantSchema = new Schema({
         type: Boolean,
         default: false,
     },
+    stars: {
+        type: Number,
+        default: 0,
+    },
     chef: {
         type: Schema.Types.ObjectId,
         ref: "chef",
