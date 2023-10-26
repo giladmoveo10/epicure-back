@@ -13,6 +13,16 @@ router.get("/", async (req, res) => {
     }
 });
 
+// Get popular restaurants
+router.get("/popular", async (req, res) => {
+    try {
+        const popularRestaurants = await Restaurant.find({ popular: true }).populate("chef dishes");
+        res.json(popularRestaurants);
+    } catch (err) {
+        res.status(500).json({ message: err.message });
+    }
+});
+
 // Get one restaurant
 router.get("/:id", getRestaurant, (req, res) => {
     res.json(res.restaurant);
@@ -23,9 +33,15 @@ router.post("/", authenticateToken, async (req, res) => {
     const restaurant = new Restaurant({
         name: req.body.name,
         image: req.body.image,
+        popular: req.body.popular || false,
+        stars: req.body.stars || 0,
         chef: req.body.chefId,
         dishes: req.body.dishIds,
     });
+
+    if (req.body.stars < 0 || req.body.stars > 5) {
+        return res.status(400).json({ message: "Rating must be between 0 and 5." });
+    }
 
     try {
         const newRestaurant = await restaurant.save();
@@ -43,6 +59,16 @@ router.patch("/:id", getRestaurant, authenticateToken, async (req, res) => {
     }
     if (req.body.image != null) {
         res.restaurant.image = req.body.image;
+    }
+    if (req.body.popular != null) {
+        res.restaurant.popular = req.body.popular;
+    }
+    if (req.body.stars != null) {
+        if (req.body.stars < 0 || req.body.stars > 5) {
+            return res.status(400).json({ message: "Rating must be between 0 and 5" });
+        }
+
+        res.restaurant.stars = req.body.stars;
     }
     if (req.body.chefId) {
         res.restaurant.chef = req.body.chefId;
