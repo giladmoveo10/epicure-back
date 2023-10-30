@@ -12,11 +12,11 @@ module.exports = {
     deploy: {
         staging: {
             user: "ubuntu",
-            key: "~/skills/ssh/epicure-front-gilad.pem",
-            host: ["ec2-16-170-148-201.eu-north-1.compute.amazonaws.com"],
+            key: "~/skills/new-key.pem",
+            host: ["ec2-63-35-217-134.eu-west-1.compute.amazonaws.com"],
             ref: "origin/main",
             repo: "git@github.com:giladmoveo10/epicure-back.git",
-            path: "/home/ubuntu/my-server",
+            path: "/home/ubuntu/epicure/my-server",
         },
     },
 };
