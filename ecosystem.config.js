@@ -12,7 +12,7 @@ module.exports = {
     deploy: {
         staging: {
             user: "ubuntu",
-            key: "~/skills/new-key.pem",
+            key: "/home/ubuntu/.ssh/id_rsa",
             host: ["ec2-63-35-217-134.eu-west-1.compute.amazonaws.com"],
             ref: "origin/main",
             repo: "git@github.com:giladmoveo10/epicure-back.git",
